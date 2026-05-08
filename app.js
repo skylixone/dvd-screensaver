@@ -9,6 +9,7 @@ const modeBtn = document.getElementById('mode');
 const installModal = document.getElementById('installModal');
 const installText = document.getElementById('installText');
 const installClose = document.getElementById('installClose');
+const toast = document.getElementById('toast');
 
 const palette = [
   getCss('--dvd-c1'),
@@ -227,6 +228,16 @@ function hideInstallModal(){
   installModal.setAttribute('aria-hidden', 'true');
 }
 
+function showToast(){
+  if (!toast) return;
+  toast.classList.add('show');
+  toast.setAttribute('aria-hidden', 'false');
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.setAttribute('aria-hidden', 'true');
+  }, 5000);
+}
+
 installBtn.addEventListener('click', () => {
   resetUiHideTimer();
   if (!isMobileUA()) return;
@@ -292,6 +303,7 @@ async function init(){
   initDoubleTap();
   installBtn.disabled = !isMobileUA();
   [speedInput, sizeInput, angleInput].forEach(updateSliderFill);
+  showToast();
   const svg = await loadSvg('./assets/dvd-video-logo.svg');
   state.svgImg = svg;
   resetPosition();
